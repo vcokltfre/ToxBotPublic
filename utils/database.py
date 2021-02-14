@@ -44,6 +44,7 @@ class DatabaseInterface:
         try:
             async with self.pool.acquire() as conn:
                 await conn.execute("INSERT INTO Guilds (id, config, lastreset) VALUES ($1, $2, $3);", guild, dumps(config or self.default), round(time()))
+            self.confcache[guild] = config
             return True
         except Exception as e:
             print(e)
@@ -64,6 +65,7 @@ class DatabaseInterface:
         data = await self.get_guild(guild)
 
         if not data:
+            self.confcache[guild] = None
             return None
 
         d = loads(data[1])
