@@ -38,7 +38,7 @@ class DatabaseInterface:
         async with self.pool.acquire() as conn:
             await conn.execute(initscript)
 
-        await self.get_all_guild_requests()
+        await self.reset_requests()
 
     async def create_guild(self, guild: int, config: dict = None):
         try:
