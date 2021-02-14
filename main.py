@@ -1,5 +1,5 @@
 from templatebot import Bot
-from discord import Intents
+from discord import Intents, AllowedMentions
 
 from utils.loadcfg import load
 
@@ -11,7 +11,7 @@ except FileNotFoundError:
     exit()
 
 # Make sure the token isn't empty/None
-TOKEN = config.get('token')
+TOKEN = config.get("token")
 if not TOKEN:
     print("No token provided, exiting.")
     exit()
@@ -25,10 +25,18 @@ intents = Intents(
 )
 
 # Create the bot itself
-bot = Bot(name="ToxBot", command_prefix=config.get("prefix", "!"), intents=intents)
+bot = Bot(
+    name="ToxBot",
+    command_prefix=config.get("prefix", "!"),
+    intents=intents,
+    allowed_mentions=AllowedMentions(replied_user=False),
+)
+bot.VERSION = "V1.0.0-alpha"
 
 # Load the cogs we need
-bot.load_initial_cogs()
+bot.load_initial_cogs(
+    "cogs.ui",
+)
 
 # Run the bot
 bot.run(TOKEN)
