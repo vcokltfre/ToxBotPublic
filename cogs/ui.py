@@ -7,6 +7,7 @@ from copy import copy
 from utils.checks import noadmin
 
 ID = compile(r"\b\d{17,20}\b")
+CHANNEL = compile(r"^(<#\d{17,20}>|\d{17,20})$")
 
 def strset(data: set):
     return {str(i) for i in data}
@@ -107,6 +108,21 @@ class UI(commands.Cog):
         prefix = response.content if response.content != "none" else "!"
         await response.delete()
 
+        # Logs channel
+        await reply.edit(BASE + "Enter a channel to send logs to.")
+
+        response = await self.bot.wait_for("message", check=check, timeout=30)
+
+        channel = CHANNEL.match(response.content)
+
+        if not channel:
+            return await reply.edit("You must provide a valid channel ID or mention. Please run setup again.")
+
+        channel = ctx.guild.get_channel(int(ID.search(channel).group()))
+
+        if not channel:
+            return await reply.edit("You must provide a valid channel ID or mention. Please run setup again.")
+
         # Ignore lists
         await reply.edit(content=BASE + "Enter a list of IDs to ignore in the format `id1 id2 id3`. These can be user, role, channel or category IDs. I will resolve them automatically. Enter 'none' to not ignore any IDs.")
 
@@ -145,6 +161,7 @@ class UI(commands.Cog):
         config = copy(self.bot.db.default)
 
         config["prefix"] = prefix
+        config["logs"] = channel.id
         config["ignore"]["users"] = list(users)
         config["ignore"]["roles"] = list(roles)
         config["ignore"]["channels"] = list(channels)
