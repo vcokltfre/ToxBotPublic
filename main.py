@@ -32,6 +32,7 @@ bot = Bot(
     allowed_mentions=AllowedMentions(replied_user=False),
 )
 bot.VERSION = "V1.0.0-alpha"
+bot.config = config
 
 # Load the cogs we need
 bot.load_initial_cogs(
