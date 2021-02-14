@@ -3,6 +3,7 @@ from discord import Intents, AllowedMentions
 
 from utils.loadcfg import load
 from utils.database import DatabaseInterface
+from utils.http import HTTPClient
 
 # Load the config file & set TOKEN to the token
 try:
@@ -49,6 +50,7 @@ bot.VERSION = "V1.0.0-alpha"
 bot.ENV = config.get("env", "prod")
 bot.config = config
 bot.db = DatabaseInterface(config, load("static/default.yml"))
+bot.api = HTTPClient(config["msgsafe"])
 
 # Load the cogs we need
 bot.load_initial_cogs(
