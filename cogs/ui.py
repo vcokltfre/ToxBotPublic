@@ -125,10 +125,11 @@ class UI(commands.Cog):
         if not channel:
             return await reply.edit(content="You must provide a valid channel ID or mention. Please run setup again.")
 
-        channel = ctx.guild.get_channel(int(ID.search(channel).group()))
+        channel = ctx.guild.get_channel(int(ID.search(response.content).group()))
 
         if not channel:
             return await reply.edit(content="You must provide a valid channel ID or mention. Please run setup again.")
+        await response.delete()
 
         # Ignore lists
         await reply.edit(content=BASE + "Enter a list of IDs to ignore in the format `id1 id2 id3`. These can be user, role, channel or category IDs. I will resolve them automatically. Enter 'none' to not ignore any IDs.")
