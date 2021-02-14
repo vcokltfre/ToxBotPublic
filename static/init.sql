@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS Guilds (
     config      TEXT NOT NULL,
     banned      BOOLEAN NOT NULL DEFAULT FALSE,
     daily       BIGINT NOT NULL DEFAULT 14400,
+    today       BIGINT NOT NULL DEFAULT 0,
+    lastreset   BIGINT NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
