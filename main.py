@@ -1,5 +1,6 @@
 from templatebot import Bot
 from discord import Intents, AllowedMentions
+from discord.ext.commands import when_mentioned_or
 
 from utils.loadcfg import load
 from utils.database import DatabaseInterface
@@ -28,11 +29,14 @@ intents = Intents(
 # Custom prefix
 async def get_prefix(bot, message):
     if not message.guild:
-        return config.get("prefix", "!")
-    gconf = await bot.db.get_guild_config(message.guild.id)
-    if not gconf:
-        return config.get("prefix", "!")
-    return gconf["prefix"]
+        p = config.get("prefix", "!")
+    else:
+        gconf = await bot.db.get_guild_config(message.guild.id)
+        if not gconf:
+            p = config.get("prefix", "!")
+        else:
+            p = gconf["prefix"]
+    return p
 
 # Create the bot itself
 bot = Bot(
