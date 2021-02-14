@@ -2,6 +2,7 @@ from templatebot import Bot
 from discord import Intents, AllowedMentions
 
 from utils.loadcfg import load
+from utils.database import DatabaseInterface
 
 # Load the config file & set TOKEN to the token
 try:
@@ -34,6 +35,7 @@ bot = Bot(
 )
 bot.VERSION = "V1.0.0-alpha"
 bot.config = config
+bot.db = DatabaseInterface(config, load("static/default.yml"))
 
 # Load the cogs we need
 bot.load_initial_cogs(

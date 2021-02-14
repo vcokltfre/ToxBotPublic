@@ -1,0 +1,46 @@
+prefix: "!"
+
+logs: null
+
+muted_role: null
+
+ignore:
+  users: []
+  roles: []
+  channels: []
+  categories: []
+  bots: true
+  mods: true
+
+levels:
+  alert:
+    toxic: 0.997
+    severe_toxic: 0.99
+    obscene: 0.997
+    insult: 0.997
+    threat: 0.997
+    identity_hate: 0.8
+  delete:
+    toxic: 0.999
+    severe_toxic: 0.999
+    obscene: 0.999
+    insult: 0.999
+    threat: 0.999
+    identity_hate: 0.85
+  mute:
+    toxic: 0.9995
+    severe_toxic: 0.9995
+    obscene: 0.9995
+    insult: 0.9995
+    threat: 0.9995
+    identity_hate: 0.85
+
+mutes:
+  toxic: 1200 # 20 minutes
+  severe_toxic: 2400 # 40 minutes
+  obscene: 1200 # 20 minutes
+  insult: 1200 # 20 minutes
+  threat: 1200 # 20 minutes
+  identity_hate: 7200 # 2 hours
+
+dm_on: delete
