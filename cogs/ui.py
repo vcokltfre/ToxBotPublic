@@ -1,10 +1,12 @@
 from discord.ext import commands
-from discord import Embed, TextChannel, Role, CategoryChannel
+from discord import Embed, TextChannel, Role, CategoryChannel, File
 from templatebot import Bot
 from re import compile
 from copy import copy
+from io import StringIO
+from json import dumps
 
-from utils.checks import noadmin
+from utils.checks import noadmin, has_setup
 
 ID = compile(r"\b\d{17,20}\b")
 CHANNEL = compile(r"^(<#\d{17,20}>|\d{17,20})$")
@@ -35,8 +37,13 @@ class UI(commands.Cog):
     @commands.group(name="config")
     @commands.has_guild_permissions(manage_guild=True)
     @noadmin()
+    @has_setup()
     async def config(self, ctx: commands.Context):
-        pass
+        if ctx.invoked_subcommand is None:
+            gconf = await self.bot.db.get_guild_config(ctx.guild.id)
+
+            f = StringIO(dumps(gconf, indent=2))
+            await ctx.reply(file=File(f, f"{ctx.guild.id}.json"))
 
     @config.command(name="prefix")
     async def config_prefix(self, ctx: commands.Context, prefix: str = None):

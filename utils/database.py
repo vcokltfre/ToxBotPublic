@@ -27,6 +27,7 @@ class DatabaseInterface:
                 "DROP TABLE Infractions; DROP TABLE Guilds;"
             )
         self.pool = None
+        self.confcache = {}
         await self.init()
 
     async def init(self):
