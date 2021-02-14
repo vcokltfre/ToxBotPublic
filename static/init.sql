@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS Guilds (
     daily       BIGINT NOT NULL DEFAULT 14400,
     today       BIGINT NOT NULL DEFAULT 0,
     lastreset   BIGINT NOT NULL DEFAULT 0,
+    limitsent   BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id)
 );
 
