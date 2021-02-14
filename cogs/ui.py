@@ -116,7 +116,7 @@ class UI(commands.Cog):
         await response.delete()
 
         # Logs channel
-        await reply.edit(BASE + "Enter a channel to send logs to.")
+        await reply.edit(content=BASE + "Enter a channel to send logs to.")
 
         response = await self.bot.wait_for("message", check=check, timeout=30)
 
@@ -128,7 +128,7 @@ class UI(commands.Cog):
         channel = ctx.guild.get_channel(int(ID.search(channel).group()))
 
         if not channel:
-            return await reply.edit("You must provide a valid channel ID or mention. Please run setup again.")
+            return await reply.edit(content="You must provide a valid channel ID or mention. Please run setup again.")
 
         # Ignore lists
         await reply.edit(content=BASE + "Enter a list of IDs to ignore in the format `id1 id2 id3`. These can be user, role, channel or category IDs. I will resolve them automatically. Enter 'none' to not ignore any IDs.")
