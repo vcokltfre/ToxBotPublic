@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS Guilds (
     id          BIGINT NOT NULL,
     config      TEXT NOT NULL,
     banned      BOOLEAN NOT NULL DEFAULT FALSE,
+    daily       BIGINT NOT NULL DEFAULT 14400,
     PRIMARY KEY (id)
 );
 
