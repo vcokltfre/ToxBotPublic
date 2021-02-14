@@ -25,10 +25,19 @@ intents = Intents(
     reactions=True,
 )
 
+# Custom prefix
+async def get_prefix(bot, message):
+    if not message.guild:
+        return config.get("prefix", "!")
+    gconf = await bot.db.get_guild_config(message.guild.id)
+    if not gconf:
+        return config.get("prefix", "!")
+    return gconf["prefix"]
+
 # Create the bot itself
 bot = Bot(
     name="ToxBot",
-    command_prefix=config.get("prefix", "!"),
+    command_prefix=get_prefix,
     intents=intents,
     allowed_mentions=AllowedMentions(replied_user=False, roles=False),
     help_command=None,
