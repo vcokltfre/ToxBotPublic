@@ -44,7 +44,9 @@ class UI(commands.Cog):
         if len(prefix) > 8:
             return await ctx.reply("Prefixes must be 8 characters or shorter.")
 
-        # TODO: Database config logic
+        gconf = await self.bot.db.get_guild_config(ctx.guild.id)
+        gconf["prefix"] = prefix
+        await self.bot.db.set_guild_config(ctx.guild.id, gconf)
 
         await ctx.reply(f"The prefix for this server has been set to `{prefix}`")
 
@@ -85,7 +87,7 @@ class UI(commands.Cog):
 
     @commands.command(name="setup")
     @commands.has_guild_permissions(manage_guild=True)
-    #@noadmin()
+    @noadmin()
     async def guild_setup(self, ctx: commands.Context):
         BASE = f"Setting up server: {ctx.guild}\n\n"
 
