@@ -43,6 +43,7 @@ bot = Bot(
     help_command=None,
 )
 bot.VERSION = "V1.0.0-alpha"
+bot.ENV = config.get("env", "prod")
 bot.config = config
 bot.db = DatabaseInterface(config, load("static/default.yml"))
 
