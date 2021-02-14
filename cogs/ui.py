@@ -123,7 +123,7 @@ class UI(commands.Cog):
         channel = CHANNEL.match(response.content)
 
         if not channel:
-            return await reply.edit("You must provide a valid channel ID or mention. Please run setup again.")
+            return await reply.edit(content="You must provide a valid channel ID or mention. Please run setup again.")
 
         channel = ctx.guild.get_channel(int(ID.search(channel).group()))
 
