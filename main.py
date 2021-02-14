@@ -29,7 +29,7 @@ bot = Bot(
     name="ToxBot",
     command_prefix=config.get("prefix", "!"),
     intents=intents,
-    allowed_mentions=AllowedMentions(replied_user=False),
+    allowed_mentions=AllowedMentions(replied_user=False, roles=False),
 )
 bot.VERSION = "V1.0.0-alpha"
 bot.config = config
