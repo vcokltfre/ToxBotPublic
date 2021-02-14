@@ -35,10 +35,10 @@ class DatabaseInterface:
         async with self.pool.acquire() as conn:
             await conn.execute(initscript)
 
-    async def create_guild(self, guild: int):
+    async def create_guild(self, guild: int, config: dict = None):
         try:
             async with self.pool.acquire() as conn:
-                await conn.execute("INSERT INTO Guilds (id, config) VALUES ($1, $2);", guild, dumps(self.default))
+                await conn.execute("INSERT INTO Guilds (id, config) VALUES ($1, $2);", guild, dumps(config or self.default))
             return True
         except Exception as e:
             print(e)
