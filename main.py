@@ -4,6 +4,7 @@ from discord import Intents, AllowedMentions
 from utils.loadcfg import load
 from utils.database import DatabaseInterface
 from utils.http import HTTPClient
+from utils.utils import AverageQueue
 
 # Load the config file & set TOKEN to the token
 try:
@@ -51,10 +52,12 @@ bot.ENV = config.get("env", "prod")
 bot.config = config
 bot.db = DatabaseInterface(config, load("static/default.yml"))
 bot.api = HTTPClient(config["msgsafe"])
+bot.times = AverageQueue()
 
 # Load the cogs we need
 bot.load_initial_cogs(
     "cogs.ui",
+    "cogs.detector",
 )
 
 # Run the bot
