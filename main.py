@@ -1,6 +1,5 @@
 from templatebot import Bot
 from discord import Intents, AllowedMentions
-from discord.ext.commands import when_mentioned_or
 
 from utils.loadcfg import load
 from utils.database import DatabaseInterface
