@@ -86,19 +86,20 @@ class DatabaseInterface:
 
     async def get_all_guild_requests(self):
         async with self.pool.acquire() as conn:
-            results = await conn.fetch("SELECT (id, daily, today, lastreset) FROM Guilds;")
+            results = await conn.fetch("SELECT (id, daily, today, lastreset, limitsent) FROM Guilds;")
 
         for result in results:
             result = result[0]
             self.guildreqs[result[0]] = {
                 "limit": result[1],
                 "today": result[2],
-                "reset": result[3]
+                "reset": result[3],
+                "sent": result[4]
             }
 
     async def reset_requests(self):
         async with self.pool.acquire() as conn:
-            await conn.execute("UPDATE Guilds SET today = 0, lastreset = $1 WHERE lastreset < $1;", round(time() - 86400))
+            await conn.execute("UPDATE Guilds SET today = 0, lastreset = $1, limitsent = FALSE WHERE lastreset < $1;", round(time() - 86400))
 
         await self.get_all_guild_requests()
 
@@ -107,3 +108,8 @@ class DatabaseInterface:
             await conn.execute("UPDATE Guilds SET today = today + 1 WHERE id = $1;", guild)
 
         self.guildreqs[guild]["today"] += 1
+
+    async def limit_sent(self, guild: int):
+        self.guildreqs[guild]["sent"] = True
+        async with self.pool.acquire() as conn:
+            await conn.execute("UPDATE Guilds SET limitsent = TRUE WHERE id = $1;", guild)
